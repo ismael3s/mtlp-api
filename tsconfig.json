@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ]
+    },
+    "target": "es2017",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
+  }
+}
