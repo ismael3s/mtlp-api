@@ -12,11 +12,9 @@ services:
       - POSTGRES_DB=mtlp
   mtlp_database_test:
     image: postgres
-    volumes:
-      - "./.docker/test:/var/lib/postgresql/data"
     ports:
       - "5440:5432"
     environment:
       - POSTGRES_USER=mtlp
       - POSTGRES_PASSWORD=mtlp
-      - POSTGRES_DB=mtlp
+      - POSTGRES_DB=mtlp_teste
