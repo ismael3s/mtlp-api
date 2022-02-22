@@ -11,21 +11,21 @@ datasource db {
 }
 
 model Customer {
-  id         String         @id
-  name       String
-  email      String         @unique
-  password   String
-  customerRole      CustomerRole[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @default(now())
+  id           String         @id
+  name         String
+  email        String         @unique
+  password     String
+  customerRole CustomerRole[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
 }
 
 model Role {
-  id         String         @id @default(uuid())
-  name       String         @unique
-  customerRole      CustomerRole[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @default(now())
+  id           String         @id @default(uuid())
+  name         String         @unique
+  customerRole CustomerRole[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
 }
 
 model CustomerRole {
