@@ -12,6 +12,6 @@ export default {
   coverageProvider: "v8",
   preset: "ts-jest",
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
-  setupFiles: ["dotenv/config"],
+  setupFiles: ["<rootDir>/jest.env.ts"],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
