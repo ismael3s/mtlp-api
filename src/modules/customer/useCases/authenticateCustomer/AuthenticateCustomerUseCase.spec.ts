@@ -1,6 +1,5 @@
 import { CustomersRepositoryInMemory } from "@modules/customer/repositories/inMemory/CustomersRepositoryInMemory";
 import { hash } from "bcrypt";
-import { CreateCustomerUseCase } from "../createCustomer/CreateCustomerUseCase";
 import { AuthenticateCustomerErrors } from "./AuthencicateCustomerErrors";
 import { AuthenticateCustomerUseCase } from "./AuthenticateCustomerUseCase";
 
