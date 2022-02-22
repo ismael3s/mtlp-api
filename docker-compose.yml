@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  mtlp_database:
+    image: postgres
+    volumes:
+      - "./.docker/data:/var/lib/postgresql/data"
+    ports:
+      - "5439:5432"
+    environment:
+      - POSTGRES_USER=mtlp
+      - POSTGRES_PASSWORD=mtlp
+      - POSTGRES_DB=mtlp
