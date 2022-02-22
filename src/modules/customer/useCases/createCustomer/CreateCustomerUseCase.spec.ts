@@ -4,9 +4,13 @@ import { CreateCustomerUseCase } from "./CreateCustomerUseCase";
 import { CustomersRepositoryInMemory } from "@modules/customer/repositories/inMemory/CustomersRepositoryInMemory";
 import { CreateCustomerErrors } from "./CreateCustomerErrors";
 import { CustomerErrors } from "@modules/customer/domain/CustomerErrors";
+import { RolesRepositoryInMemory } from "@modules/customer/repositories/inMemory/RolesRepositoryInMemory";
+import { CustomerRolesRepositoryInMemory } from "@modules/customer/repositories/inMemory/CustomerRolesRepositoryInMemory";
 
 let sut: CreateCustomerUseCase;
 let customersRepositoryInMemory: ICustomersRepository;
+let rolesRepositoryInMemory: RolesRepositoryInMemory;
+let customerRolesRepositoryInMemory: CustomerRolesRepositoryInMemory;
 
 const payload: CreateCustomerDTO = {
   name: "John Doe",
@@ -15,9 +19,21 @@ const payload: CreateCustomerDTO = {
 };
 
 describe("Create Customer Use Case", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     customersRepositoryInMemory = new CustomersRepositoryInMemory();
-    sut = new CreateCustomerUseCase(customersRepositoryInMemory);
+    rolesRepositoryInMemory = new RolesRepositoryInMemory();
+    customerRolesRepositoryInMemory = new CustomerRolesRepositoryInMemory();
+    sut = new CreateCustomerUseCase(
+      customersRepositoryInMemory,
+      rolesRepositoryInMemory,
+      customerRolesRepositoryInMemory
+    );
+
+    await Promise.all([
+      rolesRepositoryInMemory.save("user"),
+      rolesRepositoryInMemory.save("admin"),
+      rolesRepositoryInMemory.save("manager"),
+    ]);
   });
 
   it("Should be able to create a customer", async () => {
@@ -31,12 +47,16 @@ describe("Create Customer Use Case", () => {
   it("Should not be able to create a customer with a duplicated email", async () => {
     await sut.execute(payload);
 
-    await expect(async () => {
+    try {
       await sut.execute({
         ...payload,
         name: "Doe John",
       });
-    }).rejects.toThrow(CreateCustomerErrors.CustomerAlreadyExistsError);
+    } catch (error) {
+      expect(error).toBeInstanceOf(
+        CreateCustomerErrors.CustomerAlreadyExistsError
+      );
+    }
   });
 
   it("Should not be able to create a customer with a invalid data", async () => {

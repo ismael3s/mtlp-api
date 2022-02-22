@@ -1,4 +1,3 @@
-import { Customer } from "@modules/customer/domain/Customer";
 import { CustomersRepositoryInMemory } from "@modules/customer/repositories/inMemory/CustomersRepositoryInMemory";
 import { QuotasRepositoryInMemory } from "@modules/yield/repositories/inMemory/QuotaRepositoryInMemory";
 import { FindQuotasErrors } from "./FindQuotasErrors";
@@ -7,8 +6,8 @@ import { FindQuotasUseCase } from "./FindQuotasUseCase";
 let sut: FindQuotasUseCase;
 let customersRepositoryInMemory: CustomersRepositoryInMemory;
 let quotasRepositoryInMemory: QuotasRepositoryInMemory;
-let customerOne: Customer;
-let customerTwo: Customer;
+let customerOne;
+let customerTwo;
 
 describe("Find Quotas Use Case", () => {
   beforeEach(async () => {

@@ -20,8 +20,13 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "strictPropertyInitialization": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "lib": [
+      "esnext"
+    ],
+    "experimentalDecorators": true
   }
 }

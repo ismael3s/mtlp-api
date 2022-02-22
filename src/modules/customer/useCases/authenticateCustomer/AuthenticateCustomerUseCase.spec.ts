@@ -1,11 +1,11 @@
 import { CustomersRepositoryInMemory } from "@modules/customer/repositories/inMemory/CustomersRepositoryInMemory";
+import { hash } from "bcrypt";
 import { CreateCustomerUseCase } from "../createCustomer/CreateCustomerUseCase";
 import { AuthenticateCustomerErrors } from "./AuthencicateCustomerErrors";
 import { AuthenticateCustomerUseCase } from "./AuthenticateCustomerUseCase";
 
 let sut: AuthenticateCustomerUseCase;
 let customersRepositoryInMemory: CustomersRepositoryInMemory;
-let createCustomerUseCase: CreateCustomerUseCase;
 
 const payload = {
   email: "jhon@example.com",
@@ -13,20 +13,20 @@ const payload = {
 };
 
 describe("Authenticate Customer Use Case", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     customersRepositoryInMemory = new CustomersRepositoryInMemory();
-    createCustomerUseCase = new CreateCustomerUseCase(
-      customersRepositoryInMemory
-    );
     sut = new AuthenticateCustomerUseCase(customersRepositoryInMemory);
+
+    const passwordHash = await hash(payload.password, 10);
+
+    await customersRepositoryInMemory.save({
+      ...payload,
+      name: "John Doe",
+      password: passwordHash,
+    });
   });
 
   it("Should be able to generate a JWT for a customer", async () => {
-    await createCustomerUseCase.execute({
-      ...payload,
-      name: "John Doe",
-    });
-
     const result = await sut.execute(payload);
 
     expect(result).toHaveProperty("token");
@@ -37,19 +37,18 @@ describe("Authenticate Customer Use Case", () => {
 
   it("Should not be able to generate a JWT for a customer with unexisting email", async () => {
     await expect(async () => {
-      await sut.execute(payload);
+      await sut.execute({
+        email: "asd@gmail.com",
+        password: payload.password,
+      });
     }).rejects.toBeInstanceOf(AuthenticateCustomerErrors.CustomerNotFound);
   });
 
   it("Should not be able to generate a JWT for a customer with invalid password", async () => {
-    await createCustomerUseCase.execute({
-        ...payload,
-        name: "John Doe",
-        password: '123'
-    })
-
-    await expect(async () => {
-      await sut.execute(payload);
-    }).rejects.toBeInstanceOf(AuthenticateCustomerErrors.CustomerNotFound);
+   try {
+      await sut.execute({ email: payload.email, password: "invalid" });
+   } catch (error) {
+    expect(error).toBeInstanceOf(AuthenticateCustomerErrors.CustomerNotFound);
+   }
   });
 });
