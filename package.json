@@ -17,11 +17,12 @@
     "typescript": "^4.5.5"
   },
   "prisma": {
-    "seed": "ts-node-dev ./src/infra/prisma/seed.ts",
+    "seed": "ts-node-dev ./src/shared/infra/prisma/seed.ts",
     "schema": "./src/shared/infra/prisma/schema.prisma"
   },
   "scripts": {
     "test": "jest",
+    "test:integration": "dotenv -e .env.test yarn prisma migrate dev && dotenv -e .env.test yarn prisma db seed && yarn test -i --watchAll",
     "dev": "ts-node-dev -r tsconfig-paths/register  --transpile-only ./src/shared/infra/http/server.ts"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
+    "dotenv-cli": "^5.0.0",
     "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
