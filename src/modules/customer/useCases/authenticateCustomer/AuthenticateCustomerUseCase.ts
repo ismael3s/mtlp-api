@@ -3,6 +3,8 @@ import { AuthenticateCustomerErrors } from "./AuthencicateCustomerErrors";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import auth from "@config/auth";
+import { inject, injectable } from "tsyringe";
+import { ICustomersRepository } from "@modules/customer/repositories/ICustomersRepository";
 
 interface IRequest {
   email: string;
@@ -18,9 +20,11 @@ interface IResponse {
   };
 }
 
+@injectable()
 class AuthenticateCustomerUseCase {
   constructor(
-    private readonly customersRepository: CustomersRepositoryInMemory
+    @inject("CustomersRepository")
+    private readonly customersRepository: ICustomersRepository
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {

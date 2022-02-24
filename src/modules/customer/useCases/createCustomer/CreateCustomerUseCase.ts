@@ -13,10 +13,10 @@ class CreateCustomerUseCase {
   constructor(
     @inject("CustomersRepository")
     private readonly customersRepository: ICustomersRepository,
-    @inject("RolesRepository")
-    private readonly rolesRepository: IRolesRepository,
-    @inject("CustomerRolesRepository")
-    private readonly customerRolesRepository: ICustomerRolesRepository
+    // @inject("RolesRepository")
+    // private readonly rolesRepository: IRolesRepository,
+    // @inject("CustomerRolesRepository")
+    // private readonly customerRolesRepository: ICustomerRolesRepository
   ) {}
 
   async execute({ email, name, password }: CreateCustomerDTO) {
@@ -41,13 +41,11 @@ class CreateCustomerUseCase {
       name,
       email,
       password: passwordHash,
+      role: "user",
     });
 
     Object.assign(customer, customerDb);
 
-    const role = await this.rolesRepository.findByName("user");
-
-    await this.customerRolesRepository.save(customer.id, role.id);
 
     return CustomerMap.toDTO(customer);
   }

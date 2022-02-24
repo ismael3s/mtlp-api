@@ -1,7 +1,7 @@
 import { CreateCustomerDTO } from "@modules/customer/dtos/CreateCustomerDTO";
-import { Customer } from "@prisma/client";
 import { ICustomersRepository } from "../ICustomersRepository";
 import { v4 as uuidV4 } from "uuid";
+import { Customer } from "@modules/customer/infra/typeorm/entities/Customer";
 class CustomersRepositoryInMemory implements ICustomersRepository {
   private customers: Customer[] = [];
 

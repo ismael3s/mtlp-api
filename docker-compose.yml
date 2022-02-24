@@ -10,11 +10,11 @@ services:
       - POSTGRES_USER=mtlp
       - POSTGRES_PASSWORD=mtlp
       - POSTGRES_DB=mtlp
-  mtlp_database_test:
-    image: postgres
-    ports:
-      - "5440:5432"
-    environment:
-      - POSTGRES_USER=mtlp
-      - POSTGRES_PASSWORD=mtlp
-      - POSTGRES_DB=mtlp_teste
+ # mtlp_database_test:
+  #  image: postgres
+   # ports:
+    #  - "5440:5432"
+    #environment:
+    #  - POSTGRES_USER=mtlp
+     # - POSTGRES_PASSWORD=mtlp
+     # - POSTGRES_DB=mtlp_teste

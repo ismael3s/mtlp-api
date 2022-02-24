@@ -1,18 +1,19 @@
-import { PrismaClient } from "@prisma/client";
 import { app } from "@shared/infra/http/app";
 import request from "supertest";
+import { Connection } from "typeorm";
+import createConnection from "@shared/infra/typeorm/";
 
-let prisma: PrismaClient;
+let connection: Connection;
 
 describe("Create Customer Contrller", () => {
   beforeAll(async () => {
-    prisma = new PrismaClient();
+    connection = await createConnection();
+    await connection.runMigrations()
   });
   
   afterAll(async () => {
-    await prisma.customerRole.deleteMany();
-    await prisma.customer.deleteMany();
-    await prisma.$disconnect();
+    await connection.dropDatabase();
+    await connection.close();
   });
 
   it("Should be able to create a customer ", async () => {

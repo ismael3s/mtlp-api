@@ -8,7 +8,7 @@ export default {
   }),
   bail: 1,
   preset: "ts-jest",
-  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
+  testMatch: ["**/?(*.)+(ispec|test).[tj]s?(x)"],
   setupFiles: ["<rootDir>/jest.env.ts"],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
