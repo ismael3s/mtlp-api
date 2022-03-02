@@ -7,10 +7,14 @@ class CreateCustomerController {
     const createCustomerUseCase = container.resolve(CreateCustomerUseCase);
     const { name, email, password } = request.body;
 
+    const { id, role } = request.customer;
+
     const customer = await createCustomerUseCase.execute({
-      name,
-      email,
-      password,
+      name: name as string,
+      email: email as string,
+      password: password as string,
+      ownerId: id,
+      ownerRole: role,
     });
 
     return response.status(201).json(customer);

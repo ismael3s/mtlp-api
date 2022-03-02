@@ -6,4 +6,10 @@ export namespace CreateCustomerErrors {
             super(`Customer with email ${email} already exists`);
         }
     }
+
+    export class UnAuthorized extends AppError {
+        constructor() {
+            super(`UnAuthorized`);
+        }
+    }
 }

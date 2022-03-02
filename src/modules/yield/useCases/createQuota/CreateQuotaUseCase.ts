@@ -10,16 +10,26 @@ class CreateQuotaUseCase {
     private readonly customersRepository: ICustomersRepository
   ) {}
 
-  async execute({ customerId, value }: CreateQuotaDTO): Promise<Quota> {
+  async execute({
+    customerId,
+    value,
+    customerOwnerId,
+  }: CreateQuotaDTO): Promise<Quota> {
+    const quota = new Quota();
+
+    Object.assign(quota, { customerId, value, customerOwnerId });
+
+    quota.validate();
+    
     const customerExists = await this.customersRepository.findById(customerId);
 
     if (!customerExists) {
       throw new CreateQuotaErrors.CustomerNotFound();
     }
 
-    const quota = await this.quotasRepository.save({ customerId, value });
+    const quotaDb = await this.quotasRepository.save({ customerOwnerId, customerId, value });
 
-    return quota;
+    return quotaDb;
   }
 }
 

@@ -2,6 +2,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -29,13 +32,28 @@ class Customer {
   })
   role: string;
 
+  @ManyToMany(() => Customer, (customer) => customer.associated)
+  @JoinTable({
+    name: "customer_association",
+    joinColumn: {
+      name: "customer_owner_id",
+    },
+    inverseJoinColumn: {
+      name: "customer_id",
+    },
+  })
+  owner: Customer[];
+
+  @ManyToMany(() => Customer, (customer) => customer.owner)
+  associated: Customer[];
+
   @CreateDateColumn({
-    name: "created_at"
+    name: "created_at",
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    name: "updated_at"
+    name: "updated_at",
   })
   updatedAt: Date;
 

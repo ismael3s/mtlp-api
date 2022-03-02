@@ -6,6 +6,8 @@ class Quota {
 
   public customerId: string;
 
+  public customerOwnerId: string;
+
   public value: number;
 
   public createdAt: Date;
@@ -23,6 +25,10 @@ class Quota {
     
     if (!this.customerId) {
       throw new QuotaErrors.QuotaEmptyField("customerId");
+    }
+
+    if (!this.customerOwnerId) {
+      throw new QuotaErrors.QuotaEmptyField("customerOwnerId");
     }
 
     if (!this.value) {

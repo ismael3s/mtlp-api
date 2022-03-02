@@ -31,6 +31,7 @@ describe("Quota Class", () => {
 
     Object.assign(quota, {
       customerId: "123",
+      customerOwnerId: "123"
     });
     try {
       quota.validate();
@@ -47,6 +48,7 @@ describe("Quota Class", () => {
     Object.assign(quota, {
       customerId: "123",
       value: -123,
+      customerOwnerId: '123'
     });
 
     expect(() => quota.validate()).toThrow(QuotaErrors.QuotaNegativeValue);

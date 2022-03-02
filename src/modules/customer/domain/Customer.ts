@@ -13,6 +13,8 @@ class Customer {
 
   public roles: string[];
 
+  public owner: Customer[];
+
   public createdAt: Date;
 
   public updatedAt: Date;

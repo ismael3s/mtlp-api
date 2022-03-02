@@ -6,6 +6,7 @@ const payload: CreateCustomerDTO = {
   name: "John Doe",
   email: "example@examplle.com",
   password: "password",
+  ownerId: "123",
 };
 
 describe("Customer Domain Test", () => {

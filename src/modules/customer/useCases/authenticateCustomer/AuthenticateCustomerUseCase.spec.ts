@@ -22,6 +22,7 @@ describe("Authenticate Customer Use Case", () => {
       ...payload,
       name: "John Doe",
       password: passwordHash,
+      ownerId: "123",
     });
   });
 

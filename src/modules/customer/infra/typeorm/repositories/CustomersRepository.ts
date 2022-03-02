@@ -14,6 +14,13 @@ class CustomersRepository implements ICustomersRepository {
   async save(createCustomer: CreateCustomerDTO): Promise<Customer> {
     const customer = this.repository.create(createCustomer);
 
+
+    if (createCustomer.ownerId) {
+      const owner = await this.findById(createCustomer.ownerId);
+
+      customer.associated = [owner];
+    }
+    
     await this.repository.save(customer);
 
     return customer;
@@ -22,9 +29,20 @@ class CustomersRepository implements ICustomersRepository {
   findByEmail(email: string): Promise<Customer> {
     return this.repository.findOne({ email });
   }
-  
-  findById(id: string): Promise<Customer> {
-    return this.repository.findOne({ id });
+
+  async findById(id: string): Promise<Customer> {
+    const customer = await  this.repository.findOne({ id });
+    
+    return customer;
+  }
+
+  async findAssocietedCustomers(customerId: string): Promise<Customer> {
+    const query = this.repository.createQueryBuilder("customer");
+
+    return query
+      .leftJoinAndSelect("customer.owner", "owner")
+      .andWhere("customer.id = :customerId", { customerId })
+      .getOne();
   }
 }
 

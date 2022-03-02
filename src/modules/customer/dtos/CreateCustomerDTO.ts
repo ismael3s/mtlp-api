@@ -4,9 +4,11 @@ class CreateCustomerDTO {
   email: string;
   password: string;
   role?: Role
+  ownerId: string;
+  ownerRole?: string;
 }
 
-type Role =  "user" | "manager" | "admin";
+export type Role =  "user" | "manager" | "admin";
 
 
 export { CreateCustomerDTO };

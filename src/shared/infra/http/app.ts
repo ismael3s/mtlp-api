@@ -1,7 +1,8 @@
 import "reflect-metadata";
 import "@shared/container";
-import express from "express";
 import "express-async-errors";
+import "dotenv/config"
+import express from "express";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { router } from "./routes";
 import createConnection from "../../infra/typeorm/";

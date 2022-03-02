@@ -3,6 +3,9 @@ import { ICustomersRepository } from "../ICustomersRepository";
 import { v4 as uuidV4 } from "uuid";
 import { Customer } from "@modules/customer/infra/typeorm/entities/Customer";
 class CustomersRepositoryInMemory implements ICustomersRepository {
+  findAssocietedCustomers(customerId: string): Promise<Customer> {
+    throw new Error("Method not implemented.");
+  }
   private customers: Customer[] = [];
 
   async save({ name, email, password }: CreateCustomerDTO): Promise<Customer> {

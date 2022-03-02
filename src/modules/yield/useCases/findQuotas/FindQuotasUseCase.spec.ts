@@ -22,27 +22,32 @@ describe("Find Quotas Use Case", () => {
       name: "john1",
       email: "jhon@example.com",
       password: "123456",
+      ownerId: '123'
     });
 
     customerTwo = await customersRepositoryInMemory.save({
       name: "john2",
       email: "example@jhon.com",
       password: "123456",
+      ownerId: '123'
     });
 
     await quotasRepositoryInMemory.save({
       customerId: customerOne.id,
       value: 1000,
+      customerOwnerId: '123'
     });
 
     await quotasRepositoryInMemory.save({
       customerId: customerOne.id,
       value: 1500,
+      customerOwnerId: '123'
     });
 
     await quotasRepositoryInMemory.save({
       customerId: customerTwo.id,
       value: 1000,
+      customerOwnerId: '321'
     });
   });
 

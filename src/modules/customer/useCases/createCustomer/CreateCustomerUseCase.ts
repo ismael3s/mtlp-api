@@ -10,10 +10,21 @@ import { CreateCustomerErrors } from "./CreateCustomerErrors";
 class CreateCustomerUseCase {
   constructor(
     @inject("CustomersRepository")
-    private readonly customersRepository: ICustomersRepository,
+    private readonly customersRepository: ICustomersRepository
   ) {}
 
-  async execute({ email, name, password }: CreateCustomerDTO) {
+  async execute({
+    email,
+    name,
+    password,
+    ownerRole,
+    ownerId,
+  }: CreateCustomerDTO) {
+
+    if (!["manager", "admin"].includes(ownerRole)) {
+      throw new CreateCustomerErrors.UnAuthorized();
+    }
+
     const customerAlreadyExists = await this.customersRepository.findByEmail(
       email
     );
@@ -21,6 +32,7 @@ class CreateCustomerUseCase {
     if (customerAlreadyExists) {
       throw new CreateCustomerErrors.CustomerAlreadyExistsError(email);
     }
+
 
     const customer = new Customer();
 
@@ -36,14 +48,13 @@ class CreateCustomerUseCase {
       email,
       password: passwordHash,
       role: "user",
+      ownerId,
     });
 
     Object.assign(customer, customerDb);
-
 
     return CustomerMap.toDTO(customer);
   }
 }
 
 export { CreateCustomerUseCase };
-

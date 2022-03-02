@@ -12,6 +12,8 @@ const payload: CreateCustomerDTO = {
   name: "John Doe",
   password: "password",
   email: "john@example.com",
+  ownerId: '123',
+  ownerRole: 'manager'
 };
 
 describe("Create Customer Use Case", () => {
@@ -51,6 +53,8 @@ describe("Create Customer Use Case", () => {
         name: "",
         email: "123@123.com",
         password: "",
+        ownerId: '',
+        ownerRole: 'manager'
       });
     }).rejects.toBeInstanceOf(CustomerErrors.CustomerInvalidField);
   });
@@ -61,6 +65,8 @@ describe("Create Customer Use Case", () => {
         name: "Jgon",
         email: "123@12@3.com",
         password: "12245",
+        ownerId: '123',
+        ownerRole: 'manager'
       });
     }).rejects.toBeInstanceOf(CustomerErrors.CustomerInvalidEmailError);
   });

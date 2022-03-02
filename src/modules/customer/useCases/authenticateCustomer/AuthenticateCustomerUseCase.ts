@@ -1,4 +1,3 @@
-import { CustomersRepositoryInMemory } from "@modules/customer/repositories/inMemory/CustomersRepositoryInMemory";
 import { AuthenticateCustomerErrors } from "./AuthencicateCustomerErrors";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
