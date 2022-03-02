@@ -22,7 +22,7 @@ describe("Create Yield Use Case", () => {
     const quota = await quotasRepositoryInMemory.save({
       customerId: "customerId",
       value: 1000,
-      customerOwnerId: "123"
+      managerId: "123"
     });
 
     const yeild_ = await sut.execute(quota.id, 0.3);

@@ -1,5 +1,5 @@
-import { Quota } from "@modules/yield/domain/Quota";
 import { CreateQuotaDTO } from "@modules/yield/dtos/CreateQuotaDTO";
+import { Quota } from "@modules/yield/infra/typeorm/entities/Quota";
 import { IQuotasRepository } from "../IQuotasRepository";
 
 class QuotasRepositoryInMemory implements IQuotasRepository {
@@ -8,13 +8,11 @@ class QuotasRepositoryInMemory implements IQuotasRepository {
   async save({
     customerId,
     value,
-    customerOwnerId,
+    managerId,
   }: CreateQuotaDTO): Promise<Quota> {
     const quota = new Quota();
 
-    Object.assign(quota, { customerId, value, customerOwnerId });
-
-    quota.validate();
+    Object.assign(quota, { customerId, value, managerId });
 
     this.quotas.push(quota);
 
@@ -25,6 +23,12 @@ class QuotasRepositoryInMemory implements IQuotasRepository {
     const quotas = this.quotas.filter(
       (quota) => quota.customerId === customerId
     );
+
+    return quotas;
+  }
+
+  async findByManagerId(managerId: string): Promise<Quota[]> {
+    const quotas = this.quotas.filter((quota) => quota.managerId === managerId);
 
     return quotas;
   }

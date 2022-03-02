@@ -8,6 +8,7 @@ describe("Quota Class", () => {
     Object.assign(quota, {
       customerId: "123-123123",
       value: 1000,
+      managerId: "123-123123",
     });
 
     expect(quota).toBeInstanceOf(Quota);
@@ -31,15 +32,15 @@ describe("Quota Class", () => {
 
     Object.assign(quota, {
       customerId: "123",
-      customerOwnerId: "123"
+      managerId: "123"
     });
+
     try {
       quota.validate();
     } catch (error: any) {
       expect(error).toBeInstanceOf(QuotaErrors.QuotaEmptyField);
       expect(error.message).toBe("Quota field value is empty");
     }
-    // expect(() => quota.validate()).toThrow(QuotaErrors.QuotaEmptyField);
   });
 
   it("Should not be able to create a quota instance with negative  value", () => {
@@ -48,7 +49,7 @@ describe("Quota Class", () => {
     Object.assign(quota, {
       customerId: "123",
       value: -123,
-      customerOwnerId: '123'
+      managerId: '123'
     });
 
     expect(() => quota.validate()).toThrow(QuotaErrors.QuotaNegativeValue);

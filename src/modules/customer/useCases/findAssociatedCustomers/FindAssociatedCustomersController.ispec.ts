@@ -45,7 +45,7 @@ describe("Find Associated customer Controller", () => {
 
   it("Should be able to find  all customers associeted with one manager ", async () => {
     const response = await request(app)
-      .get(`/api/customers`)
+      .get(`/api/manager/customers`)
       .set("Authorization", `Bearer ${token}`);
 
 
@@ -58,7 +58,7 @@ describe("Find Associated customer Controller", () => {
 
   it("Should be able to find  all customers associeted with one manager ", async () => {
     const response = await request(app)
-      .get(`/api/customers`)
+      .get(`/api/manager/customers`)
 
     expect(response.status).toBe(401);
   });

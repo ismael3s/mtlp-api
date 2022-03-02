@@ -24,9 +24,13 @@ describe("Create Quota Use Case", () => {
       name: "John Doe",
       email: "jhon1@example.com",
       password: "123456",
-      ownerId: "123"
+      ownerId: "123",
     });
-    const quota = await sut.execute({ customerId: customer.id, value: 1000,customerOwnerId: '123' });
+    const quota = await sut.execute({
+      customerId: customer.id,
+      value: 1000,
+      managerId: "123",
+    });
 
     expect(quota).toBeInstanceOf(Quota);
     expect(quota).toHaveProperty("id");
@@ -36,7 +40,11 @@ describe("Create Quota Use Case", () => {
 
   it("Should not be able to create a quota for an invalid customerId ", async () => {
     try {
-      await sut.execute({ customerId: "123-123123", value: 1000, customerOwnerId: '123' });
+      await sut.execute({
+        customerId: "123-123123",
+        value: 1000,
+        managerId: "123",
+      });
     } catch (error) {
       expect(error).toBeInstanceOf(CreateQuotaErrors.CustomerNotFound);
     }
@@ -51,9 +59,33 @@ describe("Create Quota Use Case", () => {
         ownerId: "123-123123",
       });
 
-      await sut.execute({ customerId: customer.id, value: -123, customerOwnerId: '123' });
+      await sut.execute({
+        customerId: customer.id,
+        value: -123,
+        managerId: "123",
+      });
     } catch (error) {
       expect(error).toBeInstanceOf(QuotaErrors.QuotaNegativeValue);
+    }
+  });
+
+  it("Should not be able to create a quota without a managerId", async () => {
+    try {
+      const customer = await customersRepositoryInMemory.save({
+        name: "John Doe",
+        email: "example@example.com",
+        password: "123456",
+        ownerId: "123-123123",
+      });
+
+      await sut.execute({
+        customerId: customer.id,
+        value: -123,
+        managerId: "",
+      });
+    } catch (error) {
+      expect(error).toBeInstanceOf(QuotaErrors.QuotaEmptyField);
+      expect(error.message).toBe("Quota field managerId is empty");
     }
   });
 });

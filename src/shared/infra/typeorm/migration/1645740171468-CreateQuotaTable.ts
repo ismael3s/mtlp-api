@@ -16,7 +16,7 @@ export class CreateQuotaTable1645740171468 implements MigrationInterface {
                     type: "varchar",
                 },
                 {
-                    name: "customer_owner_id",
+                    name: "manager_id",
                     type: "varchar",
                 },
                 {
@@ -43,8 +43,8 @@ export class CreateQuotaTable1645740171468 implements MigrationInterface {
                     referencedTableName: "customer",
                 },
                 {
-                    name: "quota_customer_owner_id_fk",
-                    columnNames: ["customer_owner_id"],
+                    name: "quota_manager_fk",
+                    columnNames: ["manager_id"],
                     referencedColumnNames: ["id"],
                     referencedTableName: "customer",
                 },

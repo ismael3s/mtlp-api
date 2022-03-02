@@ -32,6 +32,10 @@ const authorizationMiddleware = async (
     throw new AppError("Customer not found", 401);
   }
 
+  if (customer.role !== "manager") {
+    throw new AppError("Unauthorized", 401);
+  }
+
   request.customer = customer;
 
   next();

@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { customerRoutes } from "./customers.routes";
+import { managerRouter } from "./managersRoutes";
 import { sessionsRoutes } from "./sessions.routes";
 
 const router = Router();
 
-router.use("/api/customers", customerRoutes);
+router.use(managerRouter)
 router.use("/api/sessions", sessionsRoutes);
 
 export { router };
+

@@ -28,9 +28,9 @@ class Quota {
 
   @OneToOne(() => Customer)
   @JoinColumn({
-    name: "customer_owner_id",
+    name: "manager_id",
   })
-  customerOwnerId: string;
+  managerId: string;
 
   @Column()
   value: number;

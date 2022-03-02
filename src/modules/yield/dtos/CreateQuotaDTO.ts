@@ -1,7 +1,7 @@
 class CreateQuotaDTO {
     public customerId: string;
 
-    public customerOwnerId: string;
+    public managerId: string;
 
     public value: number;
 }

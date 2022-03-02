@@ -1,23 +1,32 @@
 import { CustomersRepositoryInMemory } from "@modules/customer/repositories/inMemory/CustomersRepositoryInMemory";
 import { QuotasRepositoryInMemory } from "@modules/yield/repositories/inMemory/QuotaRepositoryInMemory";
-import { FindQuotasErrors } from "./FindQuotasErrors";
-import { FindQuotasUseCase } from "./FindQuotasUseCase";
+import { FindQuotasErrors } from "./FindQuotasByManagerErrors";
+import { FindQuotasByManagerUseCase } from "./FindQuotasByManagerUseCase";
 
-let sut: FindQuotasUseCase;
+let sut: FindQuotasByManagerUseCase;
 let customersRepositoryInMemory: CustomersRepositoryInMemory;
 let quotasRepositoryInMemory: QuotasRepositoryInMemory;
 let customerOne;
 let customerTwo;
+let manager;
 
 describe("Find Quotas Use Case", () => {
   beforeEach(async () => {
     customersRepositoryInMemory = new CustomersRepositoryInMemory();
     quotasRepositoryInMemory = new QuotasRepositoryInMemory();
-    sut = new FindQuotasUseCase(
+    sut = new FindQuotasByManagerUseCase(
       customersRepositoryInMemory,
       quotasRepositoryInMemory
     );
 
+
+    manager = await customersRepositoryInMemory.save({
+      email: "manager@example.com",
+      name: "Manager",
+      ownerId: "",
+      password: "1234",
+    });
+    
     customerOne = await customersRepositoryInMemory.save({
       name: "john1",
       email: "jhon@example.com",
@@ -35,19 +44,19 @@ describe("Find Quotas Use Case", () => {
     await quotasRepositoryInMemory.save({
       customerId: customerOne.id,
       value: 1000,
-      customerOwnerId: '123'
+      managerId: manager.id
     });
 
     await quotasRepositoryInMemory.save({
       customerId: customerOne.id,
       value: 1500,
-      customerOwnerId: '123'
+      managerId: manager.id
     });
 
     await quotasRepositoryInMemory.save({
       customerId: customerTwo.id,
       value: 1000,
-      customerOwnerId: '321'
+      managerId: '321'
     });
   });
 
@@ -56,15 +65,13 @@ describe("Find Quotas Use Case", () => {
     customersRepositoryInMemory = new CustomersRepositoryInMemory();
   });
 
-  it("Should be able to get all quotas from customerId", async () => {
-    const quotasOne = await sut.execute(customerOne.id);
-    const quotasTwo = await sut.execute(customerTwo.id);
+  it("Should be able to get all quotas from a manager", async () => {
+    const quotas = await sut.execute(manager.id);
 
-    expect(quotasOne.length).toBe(2);
-    expect(quotasOne[0].customerId).toBe(customerOne.id);
+    expect(quotas.length).toBe(2);
+    expect(quotas[0].customerId).toBe(customerOne.id);
+    expect(quotas[0].managerId).toBe(manager.id);
 
-    expect(quotasTwo.length).toBe(1);
-    expect(quotasTwo[0].customerId).toBe(customerTwo.id);
   });
 
   it("Should be not able to get quotas from unexisting customer id ", async () => {

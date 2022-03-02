@@ -6,7 +6,7 @@ class Quota {
 
   public customerId: string;
 
-  public customerOwnerId: string;
+  public managerId: string;
 
   public value: number;
 
@@ -27,8 +27,8 @@ class Quota {
       throw new QuotaErrors.QuotaEmptyField("customerId");
     }
 
-    if (!this.customerOwnerId) {
-      throw new QuotaErrors.QuotaEmptyField("customerOwnerId");
+    if (!this.managerId) {
+      throw new QuotaErrors.QuotaEmptyField("managerId");
     }
 
     if (!this.value) {

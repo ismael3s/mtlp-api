@@ -30,7 +30,7 @@ describe("Create Customer Contrller", () => {
 
   it("Should be able to create a customer ", async () => {
     const response = await request(app)
-      .post("/api/customers")
+      .post("/api/manager/customers")
       .send({
         name: "John Doe",
         email: "jhon@example.com",
@@ -45,7 +45,7 @@ describe("Create Customer Contrller", () => {
 
   it("Should not be able to create a customer when email already exists", async () => {
     const response = await request(app)
-      .post("/api/customers")
+      .post("/api/manager/customers")
       .send({
         name: "John Doe",
         email: "jhon@example.com",
@@ -61,7 +61,7 @@ describe("Create Customer Contrller", () => {
 
   it("Should not be able to create a customer with a empty password", async () => {
     const response = await request(app)
-      .post("/api/customers")
+      .post("/api/manager/customers")
       .send({
         name: "John Doe",
         email: "test@example.com",
@@ -77,7 +77,7 @@ describe("Create Customer Contrller", () => {
 
   it("Should not be able to create a customer without being logged", async () => {
     const response = await request(app)
-      .post("/api/customers")
+      .post("/api/manager/customers")
       .send({
         name: "John Doe",
         email: "test@example.com",

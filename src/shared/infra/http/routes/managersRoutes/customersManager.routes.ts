@@ -1,17 +1,17 @@
+import { Router } from "express";
 import { CreateCustomerController } from "@modules/customer/useCases/createCustomer/CreateCustomerController";
 import { FindAssociatedCustomersController } from "@modules/customer/useCases/findAssociatedCustomers/FindAssociatedCustomersController";
-import { Router } from "express";
-import { authorizationMiddleware } from "../middlewares/authorization.middleware";
+import { authorizationMiddleware } from "../../middlewares/authorization.middleware";
 
-const customerRoutes = Router();
+const customersManagerRoutes = Router();
 
 const createCustomerController = new CreateCustomerController();
 const findAssociatedCustomers = new FindAssociatedCustomersController();
 
-customerRoutes.use(authorizationMiddleware)
+customersManagerRoutes.use(authorizationMiddleware)
 
-customerRoutes.post("/", createCustomerController.handler);
+customersManagerRoutes.post("/", createCustomerController.handler);
 
-customerRoutes.get("/", findAssociatedCustomers.handler);
+customersManagerRoutes.get("/", findAssociatedCustomers.handler);
 
-export { customerRoutes };
+export { customersManagerRoutes };
