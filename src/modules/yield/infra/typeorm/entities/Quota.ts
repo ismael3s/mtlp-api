@@ -30,6 +30,9 @@ class Quota {
   @JoinColumn({
     name: "manager_id",
   })
+  manager: Customer;
+
+  @Column({ name: "manager_id"})
   managerId: string;
 
   @Column()
